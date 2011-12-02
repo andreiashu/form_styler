@@ -75,12 +75,12 @@ function form_styler_theme() {
   );
 }
 
+/**
+ * Theme function that adds
+ */
 function theme_form_styler_add_css_assets() {
-  $jquery_ui_path = jquery_ui_get_path();
   $path = drupal_get_path('module', 'form_styler');
   drupal_add_css($path . '/js/jqTransform/jqtransformplugin/jqtransform.css');
-  drupal_add_js($path . '/js/jqTransform/jqtransformplugin/jquery.jqtransform.js');
-  drupal_add_js($path . '/js/form_styler.js');
 }
 
 function form_styler_form_after_build($form, $form_state) {
@@ -94,8 +94,12 @@ function form_styler_form_after_build($form, $form_state) {
   }
   $form['#attributes']['class'] .= 'form-styler';
 
+  // use a theme function to add the css assets so that themes/modules can
+  // override it
   theme('form_styler_add_css_assets');
-  //dpm('test');
+
+  form_styler_add_assets();
+
   return $form;
 }
 
@@ -103,8 +107,14 @@ function form_styler_add_assets() {
   static $inited;
 
   if (!$inited) {
-    // only add ui.core
-//    jquery_ui_add(array());
     $path = drupal_get_path('module', 'form_styler');
+    drupal_add_js($path . '/js/jqTransform/jqtransformplugin/jquery.jqtransform.js');
+    drupal_add_js($path . '/js/form_styler.js');
+    $settings_js = array(
+      'form_styler' => array(
+        'imgPath' => '/js/jqTransform/jqtransformplugin/img/',
+      ),
+    );
+    drupal_add_js($settings_js, 'setting');
   }
 }
