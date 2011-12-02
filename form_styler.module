@@ -3,15 +3,15 @@
 /**
  * @return array
  */
-function jquery_form_styler_test_form() {
+function form_styler_test_form() {
 
-  drupal_add_css(drupal_get_path('module', 'jquery_form_styler') . '/css/form_styler.demo.css');
+  drupal_add_css(drupal_get_path('module', 'form_styler') . '/css/form_styler.demo.css');
 
   $form = array(
 //    '#attributes' => array(
 //      'class' => 'jquery-form-styler',
 //    ),
-    '#jquery_form_styler' => TRUE,
+    '#form_styler' => TRUE,
   );
 
     $form['select'] = array(
@@ -55,36 +55,36 @@ function jquery_form_styler_test_form() {
  * @param $form_state
  * @param $form_id
  */
-function jquery_form_styler_form_alter(&$form, &$form_state, $form_id) {
-  if (!empty($form['#jquery_form_styler'])) {
+function form_styler_form_alter(&$form, &$form_state, $form_id) {
+  if (!empty($form['#form_styler'])) {
     if (!isset($form['#after_build'])) {
       $form['#after_build'] = array();
     }
-    $form['#after_build'][] = 'jquery_form_styler_form_after_build';
+    $form['#after_build'][] = 'form_styler_form_after_build';
   }
 }
 
-function jquery_form_styler_init() {
+function form_styler_init() {
 }
 
-function jquery_form_styler_theme() {
+function form_styler_theme() {
   return array(
-    'jquery_form_styler_add_css_assets' => array(
+    'form_styler_add_css_assets' => array(
       'arguments' => array(),
     ),
   );
 }
 
-function theme_jquery_form_styler_add_css_assets() {
+function theme_form_styler_add_css_assets() {
   $jquery_ui_path = jquery_ui_get_path();
-  $path = drupal_get_path('module', 'jquery_form_styler');
+  $path = drupal_get_path('module', 'form_styler');
   drupal_add_css($path . '/js/jqTransform/jqtransformplugin/jqtransform.css');
   drupal_add_js($path . '/js/jqTransform/jqtransformplugin/jquery.jqtransform.js');
-  drupal_add_js($path . '/js/jquery_form_styler.js');
+  drupal_add_js($path . '/js/form_styler.js');
 }
 
-function jquery_form_styler_form_after_build($form, $form_state) {
-  jquery_form_styler_add_assets();
+function form_styler_form_after_build($form, $form_state) {
+  form_styler_add_assets();
 
   if (!isset($form['#attributes'])) {
     $form['#attributes'] = array();
@@ -94,17 +94,17 @@ function jquery_form_styler_form_after_build($form, $form_state) {
   }
   $form['#attributes']['class'] .= 'form-styler';
 
-  theme('jquery_form_styler_add_css_assets');
+  theme('form_styler_add_css_assets');
   //dpm('test');
   return $form;
 }
 
-function jquery_form_styler_add_assets() {
+function form_styler_add_assets() {
   static $inited;
 
   if (!$inited) {
     // only add ui.core
 //    jquery_ui_add(array());
-    $path = drupal_get_path('module', 'jquery_form_styler');
+    $path = drupal_get_path('module', 'form_styler');
   }
 }
