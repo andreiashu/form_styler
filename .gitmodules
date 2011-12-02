@@ -1,0 +1,3 @@
+[submodule "js/jqTransform"]
+	path = js/jqTransform
+	url = git://github.com/andreiashu/jqTransform.git
