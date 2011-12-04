@@ -1,0 +1,4 @@
+name = Form Styler Test
+description = Form Styler Test
+core = 6.x
+dependenciesp[] = form_styler

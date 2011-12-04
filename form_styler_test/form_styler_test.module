@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ *
+ * @return void
+ */
+function form_styler_test_menu() {
+  $items = array();
+
+  $items['form_styler_test'] = array(
+    'title' => 'Form Styler test',
+    'description' => 'Form Styler test',
+    'page callback' => 'form_style_test_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function form_style_test_page() {
+  drupal_add_css(drupal_get_path('module', 'form_styler') . '/css/form_styler.demo.css');
+
+  $output = drupal_get_form('form_styler_test_form_styled');
+  $output .= drupal_get_form('form_styler_test_form_unstyled');
+
+  return $output;
+}
+
+
+/**
+ * @return array
+ */
+function form_styler_test_form_styled() {
+  $subform_form = _form_styler_test_form_elements();
+
+  $form['#form_styler'] = TRUE;
+  $form['identity'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Styled form'),
+  );
+  $form['identity'][] = $subform_form;
+
+  return $form;
+}
+
+/**
+ * @return array
+ */
+function form_styler_test_form_unstyled() {
+  $subform_form = _form_styler_test_form_elements();
+  $form['identity'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Un-Styled form'),
+  );
+  $form['identity'][] = $subform_form;
+
+  return $form;
+}
+
+function _form_styler_test_form_elements() {
+  $form['select'] = array(
+    '#type' => 'select',
+    '#title' => t('Simple select'),
+    '#options' => array(
+      '' => t('None'),
+      'value1' => t('Value 1'),
+      'value2' => t('Value 2'),
+      'value3' => t('Value 3'),
+      'value4' => t('Value 4'),
+    ),
+  );
+
+  $form['select2'] = array(
+    '#type' => 'select',
+    '#title' => t('Complex select'),
+    '#options' => array(
+      '' => t('None'),
+      'value1' => t('Value 1'),
+      'value2' => t('Value 2'),
+      'value3' => t('Value 3'),
+      'value4' => t('Value 4'),
+      'value5' => t('Multi lined row. Multi lined row. Multi lined row. Multi lined row. '),
+      'value6' => t('Value 6'),
+      'value7' => t('Value 7'),
+      'value8' => t('Value 8'),
+      'value9' => t('Value 9'),
+      'value10' => t('Value1 10'),
+      'value11' => t('Value1 11'),
+    ),
+  );
+
+  return $form;
+}
