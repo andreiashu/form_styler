@@ -16,9 +16,11 @@ function form_styler_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-function form_styler_init() {
-}
-
+/**
+ * Implementation of hook_theme.
+ *
+ * @return array
+ */
 function form_styler_theme() {
   return array(
     'form_styler_add_css_assets' => array(
@@ -28,7 +30,7 @@ function form_styler_theme() {
 }
 
 /**
- * Theme function that adds
+ * Theme function that adds css assets
  */
 function theme_form_styler_add_css_assets() {
   $path = drupal_get_path('module', 'form_styler');
@@ -46,6 +48,8 @@ function form_styler_form_after_build($form, $form_state) {
   }
   $form['#attributes']['class'] .= 'form-styler';
 
+  _form_styler_disable_resizable_textareas($form);
+
   // use a theme function to add the css assets so that themes/modules can
   // override it
   theme('form_styler_add_css_assets');
@@ -53,6 +57,27 @@ function form_styler_form_after_build($form, $form_state) {
   form_styler_add_assets();
 
   return $form;
+}
+
+/**
+ * Disables resizing in textareas.
+ *
+ * @param $form
+ * @return void
+ */
+function _form_styler_disable_resizable_textareas(&$form) {
+  foreach(element_children($form) as $key) {
+    if (!is_array($form[$key])) {
+      continue;
+    }
+
+    _form_styler_disable_resizable_textareas($form[$key]);
+
+    if (isset($form[$key]['#type']) &&
+        $form[$key]['#type'] == 'textarea') {
+      $form[$key]['#resizable'] = FALSE;
+    }
+  }
 }
 
 function form_styler_add_assets() {

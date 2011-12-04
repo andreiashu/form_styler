@@ -19,6 +19,11 @@ function form_styler_test_menu() {
   return $items;
 }
 
+/**
+ * Menu callback
+ *
+ * @return string
+ */
 function form_style_test_page() {
   drupal_add_css(drupal_get_path('module', 'form_styler') . '/css/form_styler.demo.css');
 
@@ -60,6 +65,30 @@ function form_styler_test_form_unstyled() {
 }
 
 function _form_styler_test_form_elements() {
+  $form['text'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text input'),
+  );
+  $form['textarea'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Textarea'),
+  );
+  $form['radios'] = array(
+    '#type' => 'radios',
+    '#title' => t('Radios'),
+    '#options' => array(
+      'yes' => t('Yes'),
+      'no' => t('No'),
+      'maybe' => t('Maybe'),
+    ),
+  );
+
+  $form['checkbox'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Checkbox'),
+    '#value' => '1',
+  );
+
   $form['select'] = array(
     '#type' => 'select',
     '#title' => t('Simple select'),
