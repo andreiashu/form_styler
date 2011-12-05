@@ -84,6 +84,7 @@ function form_styler_add_assets() {
   static $inited;
 
   if (!$inited) {
+    $inited = TRUE;
     $path = drupal_get_path('module', 'form_styler');
     drupal_add_js($path . '/js/jqTransform/jqtransformplugin/jquery.jqtransform.js');
     drupal_add_js($path . '/js/form_styler.js');
