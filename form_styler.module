@@ -46,7 +46,7 @@ function form_styler_form_after_build($form, $form_state) {
   if (!isset($form['#attributes']['class'])) {
     $form['#attributes']['class'] = '';
   }
-  $form['#attributes']['class'] .= 'form-styler';
+  $form['#attributes']['class'] .= ' form-styler';
 
   _form_styler_disable_resizable_textareas($form);
 
