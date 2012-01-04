@@ -17,6 +17,24 @@ function form_styler_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Utility function that adds a flag to a form to enable styling on it.
+ *
+ * @param array $form
+ * @param array $extra_params
+ */
+function form_style_enable_on_form(&$form, $extra_params = array()) {
+  // enable form styler for this form
+  $form['#form_styler'] = TRUE;
+  // style only select elements
+  $settings = array(
+    'form_styler' => array_merge(array(
+      'restrictElements' => array('select'),
+    ), $extra_params),
+  );
+  drupal_add_js($settings, 'setting');
+}
+
+/**
  * Implementation of hook_theme.
  *
  * @return array
@@ -86,6 +104,9 @@ function form_styler_add_assets() {
   if (!$inited) {
     $inited = TRUE;
     $path = drupal_get_path('module', 'form_styler');
+    // complement form_styler by adding jquery.actual plugin
+    // this is so that form_styler can properly style hidden elements
+    drupal_add_js($path . '/js/jquery.actual.js');
     drupal_add_js($path . '/js/jqTransform/jqtransformplugin/jquery.jqtransform.js');
     drupal_add_js($path . '/js/form_styler.js');
     $settings_js = array(
